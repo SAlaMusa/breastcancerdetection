@@ -87,7 +87,7 @@ def app():
 
                         # Refresh the app to clear the current state
                         st.experimental_rerun()
-            else:
+            else: ##only predict when there's an image
                 st.write("Please upload some images to test the system.")
 
         with col2:
