@@ -12,11 +12,15 @@ except Exception as e:
     st.stop()
 
 def predict(image):
-    img = Image.open(image).resize((50, 50))
-    img_array = np.array(img) / 255.0
-    img_array = np.expand_dims(img_array, axis=0)
-    prediction = model.predict(img_array)
-    return prediction
+    try:
+        img = Image.open(image).resize((50, 50))
+        img_array = np.array(img) / 255.0
+        img_array = np.expand_dims(img_array, axis=0)
+        prediction = model.predict(img_array)
+        return prediction
+    except Exception as e:
+        st.error(f"Error during prediction: {e}")
+        return None
 # def predict(image):
 #     img = Image.open(image).resize((25, 25))
 #     img_array = np.array(img) / 255.0
