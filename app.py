@@ -5,8 +5,11 @@ from PIL import Image
 import imghdr
 
 # Load the pre-trained model
-model = load_model('model.h5')
-
+try:
+    model = load_model('model.h5')
+except Exception as e:
+    st.error(f"Error loading model: {e}")
+    st.stop()
 
 def predict(image):
     img = Image.open(image).resize((50, 50))
@@ -28,7 +31,7 @@ def app():
     st.sidebar.title("Navigation")
 
 
-    def is_valid_image(file): ##checks validity of uploaded file
+    def is_valid_image(file):
         try:
             image = Image.open(file)
             image.verify()
@@ -40,12 +43,7 @@ def app():
 
     # Create a folder object to hold images
     folder = st.sidebar.file_uploader("Upload Images", type=["jpg", "png", "jpeg"], accept_multiple_files=True)
-    if folder is not None:
-        for file in folder:
-            if is_valid_image(file):
-                st.image(file, caption=file.name, use_column_width=True)
-            else:
-                st.error(f"{file.name} is not a valid image file.")
+
     # Create navigation options
     nav_option = st.sidebar.radio("Select an option", ["About", "Predict"])
 
